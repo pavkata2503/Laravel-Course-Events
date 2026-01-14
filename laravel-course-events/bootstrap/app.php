@@ -14,6 +14,10 @@ return Application::configure(basePath: dirname(__DIR__))
         //
         // Trust the Codespaces / Docker proxy headers
         $middleware->trustProxies(at: '*');
+
+        $middleware->alias([
+        'admin' => \App\Http\Middleware\AdminMiddleware::class,
+    ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
