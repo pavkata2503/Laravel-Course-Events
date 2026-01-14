@@ -11,8 +11,11 @@ Route::view('dashboard', 'dashboard')
 Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
-    
+
 use App\Http\Controllers\CourseController;
+
+Route::resource('admin/lecturers', \App\Http\Controllers\LecturerController::class)
+    ->names('admin.lecturers');
 
 // ... (другите ти routes са тук)
 
