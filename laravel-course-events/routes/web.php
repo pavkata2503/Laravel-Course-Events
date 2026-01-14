@@ -20,6 +20,9 @@ Route::resource('admin/lecturers', \App\Http\Controllers\LecturerController::cla
 // ... (другите ти routes са тук)
 Route::resource('admin/organizations', \App\Http\Controllers\OrganizationController::class)
     ->names('admin.organizations');
+
+    Route::resource('admin/locations', \App\Http\Controllers\LocationController::class)
+    ->names('admin.locations');
 // Добавяме ресурсния път за курсовете
 // prefix('admin') прави URL-а да изглежда така: /admin/courses
 Route::resource('admin/courses', CourseController::class)

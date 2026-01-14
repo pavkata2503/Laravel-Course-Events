@@ -42,6 +42,9 @@ new class extends Component
 <x-nav-link :href="route('admin.organizations.index')" :active="request()->routeIs('admin.organizations.*')">
     🏢 Организации
 </x-nav-link>
+<x-nav-link :href="route('admin.locations.index')" :active="request()->routeIs('admin.locations.*')">
+    📍 Населени места
+</x-nav-link>
                 </div>
             </div>
 
