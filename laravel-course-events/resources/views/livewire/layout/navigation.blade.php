@@ -39,6 +39,9 @@ new class extends Component
 <x-nav-link :href="route('admin.lecturers.index')" :active="request()->routeIs('admin.lecturers.*')">
     👨‍🏫 Преподаватели
 </x-nav-link>
+<x-nav-link :href="route('admin.organizations.index')" :active="request()->routeIs('admin.organizations.*')">
+    🏢 Организации
+</x-nav-link>
                 </div>
             </div>
 
