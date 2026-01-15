@@ -13,7 +13,6 @@ class Location extends Model
         'city_name',
     ];
 
-    // Връзка: Едно населено място може да има много проведени курсове там
     public function courses()
     {
         return $this->hasMany(Course::class);

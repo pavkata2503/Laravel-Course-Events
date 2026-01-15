@@ -22,7 +22,6 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
         ]);
 
-        // Извикваме нашите сийдъри в този ред (Course трябва да е последен!)
         $this->call([
             LocationSeeder::class,
             OrganizationSeeder::class,

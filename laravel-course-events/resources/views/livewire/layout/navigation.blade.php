@@ -34,14 +34,14 @@ new class extends Component
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     @if(auth()->user()->is_admin)
-    <x-nav-link :href="route('admin.courses.index')" ...>🎓 Курсове</x-nav-link>
+    <x-nav-link :href="route('admin.organizations.index')" ...>🏢 Организации</x-nav-link>
     <x-nav-link :href="route('admin.lecturers.index')" ...>👨‍🏫 Преподаватели</x-nav-link>
-    @endif
-<x-nav-link :href="route('admin.organizations.index')" :active="request()->routeIs('admin.organizations.*')">
-    🏢 Организации
-</x-nav-link>
-<x-nav-link :href="route('admin.locations.index')" :active="request()->routeIs('admin.locations.*')">
+    <x-nav-link :href="route('admin.locations.index')" :active="request()->routeIs('admin.locations.*')">
     📍 Населени места
+</x-nav-link>
+    @endif
+<x-nav-link :href="route('admin.courses.index')" :active="request()->routeIs('admin.courses.*')">
+    🎓 Курсове
 </x-nav-link>
                 </div>
             </div>

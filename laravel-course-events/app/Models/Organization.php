@@ -15,7 +15,6 @@ class Organization extends Model
         'description',
     ];
 
-    // Връзка: Една организация може да организира много курсове
     public function courses()
     {
         return $this->hasMany(Course::class);

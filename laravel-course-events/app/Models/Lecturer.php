@@ -13,10 +13,9 @@ class Lecturer extends Model
         'name',
         'email',
         'phone',
-        'photo_path', // Пътят към снимката в storage папката
+        'photo_path', 
     ];
 
-    // Връзка: Един преподавател може да води много курсове
     public function courses()
     {
         return $this->hasMany(Course::class);

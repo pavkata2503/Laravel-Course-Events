@@ -171,7 +171,7 @@
                 <span class="font-bold text-xl text-gray-900 tracking-tight ml-2">EduSystem</span>
             </div>
             <p class="text-gray-500 text-sm">
-                &copy; {{ date('Y') }} Курсова работа по Интернет Програмиране. Всички права запазени.
+                &copy; {{ date('Y') }} Курсова работа по PHP базирани работни рамки. Всички права запазени.
             </p>
         </div>
     </footer>

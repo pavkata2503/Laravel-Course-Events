@@ -6,38 +6,21 @@ use App\Http\Controllers\LecturerController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\ProfileController; // <--- ВАЖНО: Добавихме това
+use App\Http\Controllers\ProfileController; 
 use App\Models\Course; 
 
-/*
-|--------------------------------------------------------------------------
-| Публични маршрути
-|--------------------------------------------------------------------------
-*/
 Route::get('/', function () {
-    // Взимаме последните 3 курса за началната страница
     $latestCourses = Course::with('lecturer')->latest()->take(3)->get();
     return view('welcome', compact('latestCourses'));
 });
 
-/*
-|--------------------------------------------------------------------------
-| Табло (Dashboard) - Достъпно за всеки регистриран
-|--------------------------------------------------------------------------
-*/
 Route::get('/dashboard', function () {
-    // Взимаме последните 5 курса и общата бройка
     $courses = Course::with('lecturer', 'location')->latest()->take(5)->get();
     $coursesCount = Course::count();
     
     return view('dashboard', compact('courses', 'coursesCount'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-/*
-|--------------------------------------------------------------------------
-| Профил (Profile) - Това липсваше и даваше грешката!
-|--------------------------------------------------------------------------
-*/
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -45,15 +28,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-/*
-|--------------------------------------------------------------------------
-| Административен панел (Само за Админи)
-|--------------------------------------------------------------------------
-*/
+Route::resource('admin/courses', CourseController::class)
+        ->names('admin.courses');
+
 Route::middleware(['auth', 'admin'])->group(function () {
 
-    Route::resource('admin/courses', CourseController::class)
-        ->names('admin.courses');
+    
 
     Route::resource('admin/lecturers', LecturerController::class)
         ->names('admin.lecturers');
