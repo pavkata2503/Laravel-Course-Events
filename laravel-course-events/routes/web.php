@@ -6,60 +6,67 @@ use App\Http\Controllers\LecturerController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProfileController; // <--- ВАЖНО: Добавихме това
+use App\Models\Course; 
 
 /*
 |--------------------------------------------------------------------------
-| Публични маршрути (достъпни за всички)
+| Публични маршрути
 |--------------------------------------------------------------------------
 */
-Route::view('/', 'welcome');
+Route::get('/', function () {
+    // Взимаме последните 3 курса за началната страница
+    $latestCourses = Course::with('lecturer')->latest()->take(3)->get();
+    return view('welcome', compact('latestCourses'));
+});
 
 /*
 |--------------------------------------------------------------------------
-| Маршрути за регистрирани потребители (Admin + User)
+| Табло (Dashboard) - Достъпно за всеки регистриран
 |--------------------------------------------------------------------------
-| Тук слагаме нещата, които всеки регистриран може да вижда.
 */
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
-
-Route::view('profile', 'profile')
-    ->middleware(['auth'])
-    ->name('profile');
-     // 1. Курсове
-    Route::resource('admin/courses', CourseController::class)
-        ->names('admin.courses');
+Route::get('/dashboard', function () {
+    // Взимаме последните 5 курса и общата бройка
+    $courses = Course::with('lecturer', 'location')->latest()->take(5)->get();
+    $coursesCount = Course::count();
+    
+    return view('dashboard', compact('courses', 'coursesCount'));
+})->middleware(['auth', 'verified'])->name('dashboard');
 
 /*
 |--------------------------------------------------------------------------
-| Маршрути САМО ЗА АДМИНИСТРАТОРИ
+| Профил (Profile) - Това липсваше и даваше грешката!
 |--------------------------------------------------------------------------
-| Тук използваме група с middleware ['auth', 'admin'].
-| 'auth' -> проверява дали си логнат.
-| 'admin' -> проверява дали is_admin е 1 (твоя нов middleware).
+*/
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+/*
+|--------------------------------------------------------------------------
+| Административен панел (Само за Админи)
+|--------------------------------------------------------------------------
 */
 Route::middleware(['auth', 'admin'])->group(function () {
 
-   
+    Route::resource('admin/courses', CourseController::class)
+        ->names('admin.courses');
 
-    // 2. Преподаватели
     Route::resource('admin/lecturers', LecturerController::class)
         ->names('admin.lecturers');
 
-    // 3. Организации
     Route::resource('admin/organizations', OrganizationController::class)
         ->names('admin.organizations');
 
-    // 4. Населени места
     Route::resource('admin/locations', LocationController::class)
         ->names('admin.locations');
 
-    // 5. Управление на потребители (Роли)
     Route::resource('admin/users', UserController::class)
         ->only(['index', 'create', 'store', 'destroy'])
         ->names('admin.users');
-
 });
 
 require __DIR__.'/auth.php';
