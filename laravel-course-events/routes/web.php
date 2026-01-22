@@ -45,7 +45,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
         ->names('admin.locations');
 
     Route::resource('admin/users', UserController::class)
-        ->only(['index', 'create', 'store', 'destroy'])
+        ->only(['index','edit','update', 'create', 'store', 'destroy'])
         ->names('admin.users');
 });
 

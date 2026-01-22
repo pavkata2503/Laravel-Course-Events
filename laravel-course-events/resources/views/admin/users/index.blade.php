@@ -59,18 +59,26 @@
                                     {{ $user->created_at->format('d.m.Y') }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    @if(auth()->id() !== $user->id)
-                                        <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="inline" onsubmit="return confirm('Сигурни ли сте? Този потребител ще загуби достъп веднага.');">
-                                            @csrf 
-                                            @method('DELETE')
-                                            <button class="text-red-600 hover:text-red-900 bg-red-50 hover:bg-red-100 px-3 py-1 rounded transition">
-                                                Изтрий
-                                            </button>
-                                        </form>
-                                    @else
-                                        <span class="text-gray-400 text-xs italic">(Това сте вие)</span>
-                                    @endif
-                                </td>
+    @if(auth()->id() !== $user->id)
+        
+        <a href="{{ route('admin.users.edit', $user) }}" class="text-blue-600 hover:text-blue-900 bg-blue-50 hover:bg-blue-100 px-3 py-1 rounded transition mr-2">
+            Редактирай
+        </a>
+
+        <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="inline" onsubmit="return confirm('Сигурни ли сте? Този потребител ще загуби достъп веднага.');">
+            @csrf 
+            @method('DELETE')
+            <button class="text-red-600 hover:text-red-900 bg-red-50 hover:bg-red-100 px-3 py-1 rounded transition">
+                Изтрий
+            </button>
+        </form>
+
+    @else
+        <a href="{{ route('admin.users.edit', $user) }}" class="text-gray-600 hover:text-gray-900 bg-gray-100 px-3 py-1 rounded transition">
+            Редактирай (Вас)
+        </a>
+    @endif
+</td>
                             </tr>
                         @endforeach
                     </tbody>
